@@ -31,3 +31,4 @@ python quiz_reminder.py
 ```
 
 The application uses `icon.icns` for its window and menu bar icon.
+

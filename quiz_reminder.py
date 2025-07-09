@@ -5,6 +5,7 @@ from pathlib import Path
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 APP_NAME = "QuizReminder"
 CONFIG_DIR = Path.home() / "Library" / "Application Support" / APP_NAME
 CONFIG_FILE = CONFIG_DIR / "settings.json"
@@ -157,6 +158,7 @@ class App(QtWidgets.QWidget):
     def toggle_timer(self):
         if self.timer.isActive():
             self.timer.stop()
+
         else:
             self.config_window.start_clicked()
 
@@ -189,6 +191,7 @@ class App(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+
     qt_app = App()
     qt_app.show()
     sys.exit(app.exec_())
