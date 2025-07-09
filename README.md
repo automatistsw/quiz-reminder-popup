@@ -10,7 +10,6 @@ A simple macOS utility that reminds you of a custom quiz after a timer expires. 
 - Menu bar icon to open settings, start/stop the timer and quit the app.
 - macOS Notification Center alert when the timer ends.
 - Settings are preserved between runs.
-- Dark Mode aware UI.
 
 ## Requirements
 
@@ -33,14 +32,3 @@ python quiz_reminder.py
 
 The application uses `icon.icns` for its window and menu bar icon.
 
-## Packaging
-
-To create a standalone `.app` bundle you can use `py2app`:
-
-```bash
-pip install py2app
-python setup.py py2app
-```
-
-The resulting application in `dist/QuizReminder.app` can be packaged as a DMG
-using the `hdiutil` command or any other packaging tool.
