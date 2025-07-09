@@ -4,10 +4,24 @@ import sys
 from pathlib import Path
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import subprocess
 
 APP_NAME = "QuizReminder"
 CONFIG_DIR = Path.home() / "Library" / "Application Support" / APP_NAME
 CONFIG_FILE = CONFIG_DIR / "settings.json"
+
+
+def is_dark_mode():
+    """Return True if macOS dark mode is active."""
+    try:
+        result = subprocess.run(
+            ["defaults", "read", "-g", "AppleInterfaceStyle"],
+            capture_output=True,
+            text=True,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
 
 
 class ConfigWindow(QtWidgets.QWidget):
@@ -157,6 +171,8 @@ class App(QtWidgets.QWidget):
     def toggle_timer(self):
         if self.timer.isActive():
             self.timer.stop()
+            self.tray.update_toggle(False)
+            self.tray.showMessage(APP_NAME, "Timer stopped")
         else:
             self.config_window.start_clicked()
 
@@ -189,6 +205,16 @@ class App(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+    if is_dark_mode():
+        app.setStyle("Fusion")
+        palette = QtGui.QPalette()
+        palette.setColor(QtGui.QPalette.Window, QtGui.QColor(53, 53, 53))
+        palette.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.Base, QtGui.QColor(25, 25, 25))
+        palette.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))
+        palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
+        app.setPalette(palette)
     qt_app = App()
     qt_app.show()
     sys.exit(app.exec_())
